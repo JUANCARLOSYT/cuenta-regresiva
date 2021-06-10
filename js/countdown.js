@@ -1,30 +1,51 @@
-simplyCountdown('#cuenta', {
-	year: 2025, // required
-	month: 2, // required
-	day: 19, // required
-	hours: 7, // Default is 0 [0-23] integer
-	minutes: 31, // Default is 0 [0-59] integer
-	seconds: 0, // Default is 0 [0-59] integer
-	words: { //words displayed into the countdown
-		days: 'Día',
-		hours: 'Hora',
-		minutes: 'Minuto',
-		seconds: 'Segundo',
-		pluralLetter: 's'
-	},
-	plural: true, //use plurals
-	inline: false, //set to true to get an inline basic countdown like : 24 days, 4 hours, 2 minutes, 5 seconds
-	inlineClass: 'simply-countdown-inline', //inline css span class in case of inline = true
-	// in case of inline set to false
-	enableUtc: true, //Use UTC as default
-	onEnd: function() {
-		document.getElementById('portada').classList.add('oculta');
-		return; 
-	}, //Callback on countdown end, put your own function here
-	refresh: 1000, // default refresh every 1s
-	sectionClass: 'simply-section', //section css class
-	amountClass: 'simply-amount', // amount css class
-	wordClass: 'simply-word', // word css class
-	zeroPad: false,
-	countUp: false
+$(document).ready(function(){
+	// Menu Responsive
+	$(".boton-menu span").click(function(e){
+		e.preventDefault();
+		if($(".boton-menu span").attr('class') == 'icon icon-menu'){
+			$(".boton-menu span").removeClass('icon icon-menu').addClass('icon icon-cancel');
+			$(".navegacion nav").animate({left:'0'})
+		} else {
+			$(".boton-menu span").removeClass('icon icon-cancel').addClass('icon icon-menu');
+			$(".navegacion nav").animate({left:'-100%'})
+		}
+	});
+
+	// Agregando y Eliminando Clase nav-responsive
+	var wd = $(window).width();
+	// console.log(wd);
+	if(wd <= 700 ){
+		$(".navegacion nav").addClass('nav-responsive')
+	}else{
+		$(".navegacion nav").removeClass('nav-responsive')
+	}
+			
+	$(window).resize(function(){
+		var wdi = $(window).width();
+		// console.log(wdi)
+
+		if(wdi <= 700 ){
+			$(".navegacion nav").addClass('nav-responsive')
+		}else{
+			$(".navegacion nav").removeClass('nav-responsive')
+			$(".navegacion nav").css({'position':''})
+		}
+	});
+
+	// Menu Fixed
+	var navTop = $('.navegacion').offset().top;
+	var navHeight = $('.navegacion').height();
+
+	$(window).scroll(function(){
+		// console.log($(window).scrollTop());
+		if($(window).scrollTop() > navTop){
+			$('.navegacion').css({'position':'fixed','top':'0'})
+			$('body').css({'padding-top':navHeight})
+			$('.nav-responsive').css({'position':'fixed'})
+		} else{
+			$('.navegacion').css({'position':'','top':''})
+			$('body').css({'padding-top':'0'})
+			$('.nav-responsive').css({'position':'absolute'})
+		}
+	});
 });
